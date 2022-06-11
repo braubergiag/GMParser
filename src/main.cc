@@ -57,8 +57,8 @@ private:
 
 
 int main() {
-    string path = "/home/marshall/Programming/C++Projects/GMParser/InputDir";
-    string output_path = "OutputDir";
+    string path = "/home/marshall/Programming/C++Projects/GMParser/TEST_DIR";
+    string output_path = "/home/marshall/Programming/C++Projects/GMParser/OutputDir";
 
     SiteGenerator sitegen(path,output_path);
     std::string target_ext = ".gmi";
