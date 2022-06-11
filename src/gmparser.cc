@@ -1,17 +1,20 @@
-#include <iostream>
+
+#include "../include/gmparser.h"
+#include <string>
 #include <fstream>
 #include <sstream>
-#include <stack>
+#include <iostream>
+#include <filesystem>
 
+namespace fs = std::filesystem;
 
+void GMParser::Parse(const fs::path & src,const  fs::path & target) {
+    std::ifstream input(src);
 
-int main() {
-
-    std::ifstream input("test.gmi");
-    std::ofstream output("test.html");
-
-    bool pre_open = true;
-
+    fs::path target_file_path = target / fs::path(src).filename().replace_extension(".html");
+    std::ofstream output(target_file_path);
+    // std::cout << "Parse " << target_file_path << "\n";
+    bool pre_open = true; 
     for (std::string line; getline(input,line); ) {
         std::istringstream is(line);
 
@@ -55,8 +58,4 @@ int main() {
         }
         
     }
-
-
-
-    return 0;
 }
