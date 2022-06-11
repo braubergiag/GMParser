@@ -55,7 +55,9 @@ std::ostream& operator<<(std::ostream & os,const GMQuery & gm_query) {
 }
 
 void GMParser::Parse(const fs::path & src,const  fs::path & target) {
-    fs::path target_file_path = target / fs::path(src).filename().replace_extension(".html");
+    std::string target_ext = ".html";
+    fs::path target_file_path = target / fs::path(src).filename().replace_extension(target_ext);
+    
     std::ifstream input(src);
     std::ofstream output(target_file_path);
 
@@ -66,3 +68,4 @@ void GMParser::Parse(const fs::path & src,const  fs::path & target) {
         output << gm_query;
     }   
 }
+
