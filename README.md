@@ -1,8 +1,8 @@
 # Simple gmi parser
 ## Build
-cd GMParser
-cmake .
-cmake -S . -B build
-cmake --build build
-cd build && ctest
-./GMParser input_src target_src
+<p>cd GMParser </br>
+cmake . </br>
+cmake -S . -B build </br>
+cmake --build build* </br>
+cd build && ctest* </br>
+./GMParser input_src target_src </br> </p>
