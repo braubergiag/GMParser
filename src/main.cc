@@ -3,7 +3,6 @@
 #include <string>
 
 
-
 int main(int argc, char *argv[]) {
     #if 1
     if (argc != 3) {
@@ -14,7 +13,7 @@ int main(int argc, char *argv[]) {
     #endif
     SiteGenerator sitegen(argv[1],argv[2]);
     try {
-         sitegen.Generate();
+        sitegen.Generate();
     } catch (std::runtime_error & ex) {
         std::cerr << ex.what() << std::endl;
     } 
