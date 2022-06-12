@@ -19,6 +19,7 @@ struct GMQuery {
     std::string entry;
     std::string open_t, close_t;
     inline static bool tag_is_opened{true};
+    inline static bool tag_is_rebuilded{false};
 };
 
 std::istream& operator>>( std::istream & is,GMQuery & gm_query);
