@@ -5,14 +5,44 @@
 #include <sstream>
 #include <iostream>
 #include <filesystem>
-#include <map>
+#include <algorithm>
+#include <set>
 namespace fs = std::filesystem;
+
+
+GMQueryType GetQueryType( std::istream & is) {
+    std::string query_type;
+    std::getline(is,query_type);
+    if (query_type == "=>") {
+        return GMQueryType::a_href;
+    }
+}
 
 
 std::istream& operator>>( std::istream & is,GMQuery & gm_query) {
     std::string query_type, entry;
+    std::set<std::string> tags{"#","##","###","=>",">","*","```"};
     const char space_ch = ' ';
     std::getline(is,query_type,space_ch);
+
+    // Check case, when we don't have space char after tag at the beginining of the line
+    #if 0
+    if (tags.count(query_type) == 0) {
+        if (query_type.size() > 0) {
+            for (const auto & tag : tags) {
+                auto it = query_type.find(tag);
+                if (it != std::string::npos && it == 0) {
+                    query_type.insert(tag.length(),1,space_ch);
+                    GMQuery gmq;
+                
+
+
+                }
+            }
+        }
+    }
+    #endif
+
     if (query_type == "#") {
         getline(is,entry);
         gm_query = {GMQueryType::h1,entry,"<h1>","</h1>"};
@@ -41,10 +71,12 @@ std::istream& operator>>( std::istream & is,GMQuery & gm_query) {
             gm_query = {GMQueryType::pre,"","","</pre>"};
             GMQuery::tag_is_opened = true;
         }
-    } else {
+    } else if (query_type.length() > 0) {
         getline(is,entry);
         // Here query_type is a simple string
         gm_query = {GMQueryType::pod_str,query_type + space_ch + entry};
+    } else {
+        gm_query = {GMQueryType::pod_str};
     }
 
     return is;
@@ -57,7 +89,7 @@ std::ostream& operator<<(std::ostream & os,const GMQuery & gm_query) {
 void GMParser::Parse(const fs::path & src,const  fs::path & target) {
     std::string target_ext = ".html";
     fs::path target_file_path = target / fs::path(src).filename().replace_extension(target_ext);
-    
+
     std::ifstream input(src);
     std::ofstream output(target_file_path);
 
